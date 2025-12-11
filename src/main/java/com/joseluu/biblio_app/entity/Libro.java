@@ -1,23 +1,40 @@
 package com.joseluu.biblio_app.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
+import java.util.List;
+
+/**
+ * Entidad que representa un libro en la biblioteca.
+ * Mapea la tabla "libro" en la base de datos con JPA.
+ * Contiene atributos como título, autor, ISBN, categoría y préstamos.
+ * La relación con Prestamo es uno a muchos, ignorada en JSON.
+ */
 @Entity
+@Table(name = "libro")
 public class Libro {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        private String titulo;
+    @Column(nullable = false)
+    private String titulo;
 
-        private String autor;
+    @Column(nullable = false)
+    private String autor;
 
-        private boolean disponible = true;
+    @Column(nullable = false, unique = true, length = 13)
+    private String isbn;
 
+    private String categoria;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Prestamo> prestamos;
+
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -42,11 +59,27 @@ public class Libro {
         this.autor = autor;
     }
 
-    public boolean isDisponible() {
-        return disponible;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
+    }
+
+    public void setPrestamos(List<Prestamo> prestamos) {
+        this.prestamos = prestamos;
     }
 }

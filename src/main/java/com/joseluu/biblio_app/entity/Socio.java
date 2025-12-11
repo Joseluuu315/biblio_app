@@ -1,21 +1,39 @@
 package com.joseluu.biblio_app.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
+/**
+ * Entidad que representa un socio de la biblioteca.
+ * Mapea la tabla correspondiente en la base de datos con JPA.
+ * Contiene atributos como nombre, email, fecha de fin de penalización y
+ * préstamos.
+ * Mantiene una relación uno a muchos con Prestamo, ignorada en JSON.
+ */
 @Entity
 public class Socio {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nombre;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(name = "fechaFinPenalizacion")
+    private LocalDate fechaFinPenalizacion;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "socio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Prestamo> prestamos;
+
+    // getters y setters
     public Long getId() {
         return id;
     }
@@ -38,5 +56,21 @@ public class Socio {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public LocalDate getFinPenalizacion() {
+        return fechaFinPenalizacion;
+    }
+
+    public void setFinPenalizacion(LocalDate fechaFinPenalizacion) {
+        this.fechaFinPenalizacion = fechaFinPenalizacion;
+    }
+
+    public List<Prestamo> getPrestamos() {
+        return prestamos;
+    }
+
+    public void setPrestamos(List<Prestamo> prestamos) {
+        this.prestamos = prestamos;
     }
 }
