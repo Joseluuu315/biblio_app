@@ -3,13 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-container {
+            background: #fff;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .error-container h1 {
+            margin: 0;
+            font-size: 3rem;
+            color: #e53935;
+        }
+
+        .error-container p {
+            margin: 1.2rem 0 2rem;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background: #e53935;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background: #c62828;
+        }
+    </style>
 </head>
 <body>
 
 <div class="error-container">
     <h1>Error</h1>
-    <!-- mensaje desde la excepción -->
-    <p th:text="${mensaje}">Ha ocurrido un error inesperado.</p>
+
+    <!-- Mensaje desde la excepción -->
+    <p th:text="${mensaje}">
+        Ha ocurrido un error inesperado.
+    </p>
 
     <a href="/" class="btn-volver">Volver al menú</a>
 </div>
