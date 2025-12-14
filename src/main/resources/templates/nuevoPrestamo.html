@@ -1,31 +1,132 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Préstamo</title>
-</head>
 
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2e7d32, #66bb6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            width: 420px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+            margin-bottom: 2rem;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2e7d32;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background: #2e7d32;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        a {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        a:hover {
+            background: #2e7d32;
+            color: white;
+        }
+    </style>
+</head>
 <body>
-    <h1>Registrar nuevo préstamo</h1>
+
+<div class="container">
+    <h1>📚 Nuevo Préstamo</h1>
+
     <form th:action="@{/prestamos/guardar}" th:object="${prestamo}" method="post">
-        <label>Libro:</label>
+
+        <label>Libro</label>
         <select th:field="*{libro.id}" required>
             <option value="">-- Seleccione libro --</option>
-            <option th:each="libro : ${libros}" th:value="${libro.id}" th:text="${libro.titulo}"></option>
+            <option th:each="libro : ${libros}"
+                    th:value="${libro.id}"
+                    th:text="${libro.titulo}">
+            </option>
         </select>
 
+        <label>Socio</label>
         <select th:field="*{socio.id}" required>
             <option value="">-- Seleccione socio --</option>
-            <option th:each="socio : ${socios}" th:value="${socio.id}" th:text="${socio.nombre}"></option>
+            <option th:each="socio : ${socios}"
+                    th:value="${socio.id}"
+                    th:text="${socio.nombre}">
+            </option>
         </select>
 
-        <br><br>
+        <div class="actions">
+            <button type="submit">Guardar</button>
+            <a th:href="@{/prestamos}">Cancelar</a>
+        </div>
 
-        <button type="submit">Guardar préstamo</button>
     </form>
-    <br>
-    <a th:href="@{/prestamos}">Volver al listado de préstamos</a>
-</body>
+</div>
 
+</body>
 </html>
