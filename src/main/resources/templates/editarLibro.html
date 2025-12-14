@@ -1,35 +1,121 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Editar Libro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 2rem;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            color: #555;
+        }
+
+        input {
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 0.7rem;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Editar Libro</h1>
+<div class="container">
 
-<form th:action="@{/libros/guardar}" th:object="${libro}" method="post">
+    <h1>Editar Libro</h1>
 
-    <!-- Campo oculto con el ID -->
-    <input type="hidden" th:field="*{id}" />
+    <form th:action="@{/libros/guardar}" th:object="${libro}" method="post">
 
-    <label>Título:</label>
-    <input type="text" th:field="*{titulo}" required><br/><br>
+        <!-- Campo oculto con el ID -->
+        <input type="hidden" th:field="*{id}" />
 
-    <label>Autor:</label>
-    <input type="text" th:field="*{autor}" required><br/><br>
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" th:field="*{titulo}" required>
 
-    <label>ISBN:</label>
-    <input type="text" th:field="*{isbn}" maxlength="13" required><br/><br>
+        <label for="autor">Autor</label>
+        <input id="autor" type="text" th:field="*{autor}" required>
 
-    <label>Categoría:</label>
-    <input type="text" th:field="*{categoria}"><br/><br>
+        <label for="isbn">ISBN</label>
+        <input id="isbn" type="text" th:field="*{isbn}" maxlength="13" required>
 
-    <button type="submit">Actualizar</button><br>
-</form>
+        <label for="categoria">Categoría</label>
+        <input id="categoria" type="text" th:field="*{categoria}">
 
-<br/>
-<a th:href="@{/libros}">Volver</a>
+        <button type="submit">Actualizar</button>
+    </form>
+
+    <a class="back-link" th:href="@{/libros}">← Volver al listado</a>
+
+</div>
 
 </body>
 </html>
