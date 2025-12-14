@@ -1,45 +1,175 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Préstamos</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1565c0, #42a5f5);
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1565c0;
+            margin-bottom: 1.5rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            color: white;
+            background: #1565c0;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .actions a.secondary {
+            background: #555;
+        }
+
+        .actions a:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #1565c0;
+            color: white;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: center;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        tbody tr:hover {
+            background: #e3f2fd;
+        }
+
+        .estado {
+            font-weight: bold;
+        }
+
+        .btn-delete {
+            color: #c62828;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn-delete:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                margin-bottom: 1rem;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                font-weight: bold;
+                color: #1565c0;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Listado de préstamos</h1>
-    <a th:href="@{/}">Volver al menú</a>
-    <a th:href="@{/prestamos/nuevo}">Nuevo registro</a>
-    <table border="1">
+
+<div class="container">
+
+    <h1>📚 Listado de Préstamos</h1>
+
+    <div class="actions">
+        <a th:href="@{/}" class="secondary">⬅ Volver al menú</a>
+        <a th:href="@{/prestamos/nuevo}">➕ Nuevo préstamo</a>
+    </div>
+
+    <table>
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Libro</th>
-                <th>Socio</th>
-                <th>Fecha inicio</th>
-                <th>Fecha fin</th>
-                <th>Estado</th>
-                <th>Eliminar</th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>Libro</th>
+            <th>Socio</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+            <th>Estado</th>
+            <th>Eliminar</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="prestamo : ${prestamos}">
-                <td th:text="${prestamo.id}"></td>
-                <td th:text="${prestamo.libro.titulo}"></td>
-                <td th:text="${prestamo.socio.nombre}"></td>
-                <td th:text="${prestamo.fechaPrestamo}"></td>
-                <td th:text="${prestamo.fechaFin}"></td>
-                <td th:text="${prestamo.estado}"></td>
-
-                <td>
-                    <a th:href="@{/prestamos/eliminar/{id}(id=${prestamo.id})}"
-                        onclick="return confirm('¿Seguro que deseas eliminar este préstamo?');">
-                        Eliminar
-                    </a>
-                </td>
-            </tr>
+        <tr th:each="prestamo : ${prestamos}">
+            <td data-label="ID" th:text="${prestamo.id}"></td>
+            <td data-label="Libro" th:text="${prestamo.libro.titulo}"></td>
+            <td data-label="Socio" th:text="${prestamo.socio.nombre}"></td>
+            <td data-label="Inicio" th:text="${prestamo.fechaPrestamo}"></td>
+            <td data-label="Fin" th:text="${prestamo.fechaFin}"></td>
+            <td data-label="Estado" class="estado" th:text="${prestamo.estado}"></td>
+            <td data-label="Eliminar">
+                <a class="btn-delete"
+                   th:href="@{/prestamos/eliminar/{id}(id=${prestamo.id})}"
+                   onclick="return confirm('¿Seguro que deseas eliminar este préstamo?');">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
         </tbody>
     </table>
-</body>
 
+</div>
+
+</body>
 </html>
