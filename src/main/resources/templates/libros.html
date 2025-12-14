@@ -1,42 +1,134 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Libros</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background: #f4f6f9;
+        }
+
+        h1 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .acciones-superiores {
+            margin-bottom: 1.5rem;
+        }
+
+        .acciones-superiores a {
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            color: #fff;
+            background: #1976d2;
+        }
+
+        .acciones-superiores a.nuevo {
+            background: #2e7d32;
+        }
+
+        .acciones-superiores a:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        thead {
+            background: #1976d2;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 0.9rem;
+            text-align: left;
+        }
+
+        th {
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f1f1f1;
+        }
+
+        tbody tr:hover {
+            background: #e3f2fd;
+        }
+
+        .acciones a {
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .editar {
+            color: #1976d2;
+        }
+
+        .eliminar {
+            color: #d32f2f;
+        }
+    </style>
 </head>
 <body>
-<h1>Lista de Libros</h1>
 
-<a th:href="@{/}">Volver al menú</a>
-&nbsp;|&nbsp;
-<a th:href="@{/libros/nuevo}">Nuevo Libro</a>
+<h1>📚 Lista de Libros</h1>
 
-<table border="1">
+<div class="acciones-superiores">
+    <a th:href="@{/}">⬅ Volver al menú</a>
+    <a th:href="@{/libros/nuevo}" class="nuevo">➕ Nuevo Libro</a>
+</div>
+
+<table>
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>ISBN</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-        </tr>
+    <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>ISBN</th>
+        <th>Categoría</th>
+        <th>Acciones</th>
+    </tr>
     </thead>
     <tbody>
-        <tr th:each="libro : ${libros}">
-            <td th:text="${libro.id}"></td>
-            <td th:text="${libro.titulo}"></td>
-            <td th:text="${libro.autor}"></td>
-            <td th:text="${libro.isbn}"></td>
-            <td th:text="${libro.categoria}"></td>
-            <td>
-                <a th:href="@{/libros/editar/{id}(id=${libro.id})}">Editar</a>
-                &nbsp;|&nbsp;
-                <a th:href="@{/libros/eliminar/{id}(id=${libro.id})}" 
-                   onclick="return confirm('¿Estás seguro de eliminar este libro?');">Eliminar</a>
-            </td>
-        </tr>
+    <tr th:each="libro : ${libros}">
+        <td th:text="${libro.id}"></td>
+        <td th:text="${libro.titulo}"></td>
+        <td th:text="${libro.autor}"></td>
+        <td th:text="${libro.isbn}"></td>
+        <td th:text="${libro.categoria}"></td>
+        <td class="acciones">
+            <a th:href="@{/libros/editar/{id}(id=${libro.id})}" class="editar">✏ Editar</a>
+            |
+            <a th:href="@{/libros/eliminar/{id}(id=${libro.id})}"
+               class="eliminar"
+               onclick="return confirm('¿Estás seguro de eliminar este libro?');">
+                🗑 Eliminar
+            </a>
+        </td>
+    </tr>
     </tbody>
 </table>
+
 </body>
 </html>
