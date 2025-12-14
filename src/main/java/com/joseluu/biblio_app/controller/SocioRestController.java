@@ -9,9 +9,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controlador REST para manejar operaciones sobre socios vía API.
- * Permite eliminar socios mediante solicitudes HTTP DELETE.
- * Se mapea con "/api/socios" y utiliza SocioService para la lógica.
- * Todos los métodos devuelven respuestas HTTP con ResponseEntity.
+ *
+ * <p>
+ * Expone endpoints REST para realizar operaciones CRUD sobre la entidad {@link com.joseluu.biblio_app.entity.Socio}.
+ * En esta versión, solo se implementa la eliminación de socios.
+ * </p>
+ *
+ * <h3>Versionado del proyecto</h3>
+ * <ul>
+ *   <li><b>V5</b> – Exposición de la entidad Socio mediante API REST.</li>
+ *   <li><b>V6</b> – Manejo de errores y códigos HTTP mediante ResponseEntity.</li>
+ * </ul>
+ *
+ * <p>
+ * Se mapea a "/api/socios" y delega la lógica de negocio al {@link SocioService}.
+ * </p>
  */
 @RestController
 @RequestMapping("/api/socios")
@@ -22,7 +34,7 @@ public class SocioRestController {
     /**
      * Constructor que inyecta el servicio de socios.
      *
-     * @param socioservice servicio para manejar socios
+     * @param socioservice servicio para manejar operaciones de socios
      */
     public SocioRestController(SocioService socioservice) {
         this.socioservice = socioservice;
@@ -30,6 +42,11 @@ public class SocioRestController {
 
     /**
      * Elimina un socio por su ID.
+     *
+     * <p>
+     * V5 – Endpoint REST para eliminar un socio.
+     * V6 – Devuelve un ResponseEntity con código HTTP 200 si la operación es exitosa.
+     * </p>
      *
      * @param id id del socio a eliminar
      * @return ResponseEntity con mensaje de éxito

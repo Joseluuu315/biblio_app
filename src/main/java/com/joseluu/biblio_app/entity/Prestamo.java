@@ -6,39 +6,68 @@ import java.time.LocalDate;
 
 /**
  * Entidad que representa un préstamo de libro realizado por un socio.
- * Mapea la relación entre Socio y Libro con información de fechas y estado.
- * Contiene campos para fecha de préstamo, inicio, fin y estado del préstamo.
- * Incluye un enum Estado para indicar si el préstamo está activo, devuelto o
- * retrasado.
+ *
+ * <p>
+ * Mapea la relación entre {@link Socio} y {@link Libro} e incluye información
+ * sobre fechas y estado del préstamo.
+ * </p>
+ *
+ * <h3>Versionado del proyecto</h3>
+ * <ul>
+ *   <li><b>V1</b> – Entidad mínima para CRUD de préstamos.</li>
+ *   <li><b>V3</b> – Base para la lógica de negocio de préstamos:
+ *       fechas límite, máximos activos y penalizaciones.</li>
+ *   <li><b>V5</b> – Uso en API REST para exponer préstamos.</li>
+ *   <li><b>V6</b> – Preparada para Bean Validation y manejo de errores.</li>
+ * </ul>
+ *
+ * <p>
+ * Contiene un {@link Estado} que indica si el préstamo está ACTIVO, DEVUELTO
+ * o RETRASADO.
+ * </p>
  */
 @Entity
 public class Prestamo {
 
+    /** Identificador único del préstamo. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Socio que realiza el préstamo. Relación ManyToOne obligatoria. */
     @ManyToOne
     @JoinColumn(name = "socio_id", nullable = false)
     private Socio socio;
 
+    /** Libro que se presta. Relación ManyToOne obligatoria. */
     @ManyToOne
     @JoinColumn(name = "libro_id", nullable = false)
     private Libro libro;
 
+    /** Fecha en la que se realiza el préstamo. Se inicializa automáticamente si es nula. */
     @Column(name = "fecha_prestamo")
     private LocalDate fechaPrestamo;
 
+    /** Fecha límite para la devolución del libro. */
     @Column(name = "fecha_fin")
     private LocalDate fechaFin;
 
+    /** Estado actual del préstamo: ACTIVO, DEVUELTO o RETRASADO. */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Estado estado;
 
+    /** Fecha de inicio del préstamo, obligatoria. */
     @Column(name = "fecha_inicio", nullable = false)
     private LocalDate fechaInicio;
 
+    /**
+     * Inicializa fechas antes de persistir si no se han asignado.
+     *
+     * <p>
+     * V3 – Permite establecer fechas por defecto para la lógica de préstamos.
+     * </p>
+     */
     @PrePersist
     public void prePersist() {
         if (fechaPrestamo == null) {
@@ -49,11 +78,15 @@ public class Prestamo {
         }
     }
 
+    /** Estados posibles de un préstamo. */
     public enum Estado {
         ACTIVO, DEVUELTO, RETRASADO
     }
 
-    // ===== GETTERS Y SETTERS =====
+    // =======================
+    // ===== GETTERS/SETTERS =
+    // =======================
+
     public Long getId() {
         return id;
     }
@@ -100,5 +133,13 @@ public class Prestamo {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 }

@@ -7,10 +7,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Controlador para gestionar socios de la biblioteca.
- * Permite listar, crear, editar y eliminar socios usando vistas HTML.
- * Utiliza SocioService para la lógica de negocio.
- * Se mapea con "/socios" y maneja formularios y redirecciones.
+ * Controlador MVC para gestionar socios de la biblioteca.
+ *
+ * <p>
+ * Permite listar, crear, editar y eliminar socios mediante vistas HTML
+ * usando Thymeleaf.
+ * </p>
+ *
+ * <h3>Versionado del proyecto</h3>
+ * <ul>
+ *   <li><b>V4</b> – CRUD completo de socios en MVC (vistas y formularios).</li>
+ *   <li><b>V6</b> – Preparado para validación de formularios y manejo de errores en vistas.</li>
+ * </ul>
+ *
+ * <p>
+ * Se mapea a "/socios" y utiliza {@link SocioService} para la lógica de negocio.
+ * </p>
  */
 @Controller
 @RequestMapping("/socios")
@@ -30,6 +42,10 @@ public class SocioController {
     /**
      * Muestra la lista de todos los socios.
      *
+     * <p>
+     * V4 – Listado de socios en la vista "socios".
+     * </p>
+     *
      * @param model objeto Model para pasar datos a la vista
      * @return vista "socios" con la lista de socios
      */
@@ -41,6 +57,10 @@ public class SocioController {
 
     /**
      * Muestra el formulario para crear un nuevo socio.
+     *
+     * <p>
+     * V4 – Formulario de creación.
+     * </p>
      *
      * @param model objeto Model para pasar datos a la vista
      * @return vista "nuevoSocio" con un objeto Socio vacío
@@ -54,6 +74,10 @@ public class SocioController {
     /**
      * Guarda un socio nuevo o editado.
      *
+     * <p>
+     * V4 – Maneja el POST de creación o edición.
+     * </p>
+     *
      * @param socio objeto Socio enviado desde el formulario
      * @return redirección a "/socios"
      */
@@ -65,6 +89,10 @@ public class SocioController {
 
     /**
      * Muestra el formulario para editar un socio existente.
+     *
+     * <p>
+     * V4 – Formulario de edición con datos pre-cargados.
+     * </p>
      *
      * @param id    id del socio a editar
      * @param model objeto Model para pasar datos a la vista
@@ -78,6 +106,10 @@ public class SocioController {
 
     /**
      * Elimina un socio existente.
+     *
+     * <p>
+     * V4 – Eliminación vía MVC, redirigiendo al listado.
+     * </p>
      *
      * @param id id del socio a eliminar
      * @return redirección a "/socios"

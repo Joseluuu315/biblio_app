@@ -6,22 +6,44 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Manejador global de excepciones para la aplicación.
- * Captura excepciones específicas y las procesa de manera centralizada.
- * Actualmente maneja LibroNoEncontradoException mostrando una vista de error.
- * Utiliza @ControllerAdvice para aplicar la gestión a todos los controladores.
+ *
+ * <p>
+ * Permite centralizar la gestión de errores en la capa MVC, evitando la
+ * repetición de bloques try/catch en los controladores.
+ * </p>
+ *
+ * <h3>Versionado del proyecto</h3>
+ * <ul>
+ *   <li><b>V6</b> – Gestión de errores centralizada en MVC mediante @ControllerAdvice.</li>
+ * </ul>
+ *
+ * <p>
+ * Actualmente maneja {@link LibroNoEncontradoException}, pero se puede
+ * ampliar para capturar {@link SocioNoEncontradoException} y
+ * {@link PrestamoNoEncontradoException}.
+ * </p>
+ *
+ * <p>
+ * Cada excepción puede mapearse a una vista de error específica y/o
+ * mensajes personalizados para el usuario.
+ * </p>
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * Maneja la excepción LibroNoEncontradoException.
+     * Maneja la excepción {@link LibroNoEncontradoException}.
+     *
+     * <p>
+     * V6 - Muestra una vista de error con mensaje descriptivo.
+     * </p>
      *
      * @param ex excepción lanzada cuando no se encuentra un libro
-     * @return ModelAndView con la vista "error" y mensaje de la excepción
+     * @return {@link ModelAndView} con la vista "error" y mensaje de la excepción
      */
     @ExceptionHandler(LibroNoEncontradoException.class)
     public ModelAndView handleLibroNotFound(LibroNoEncontradoException ex) {
-        ModelAndView mv = new ModelAndView("error"); // puedes crear plantilla error.html
+        ModelAndView mv = new ModelAndView("error"); // plantilla error.html
         mv.addObject("mensaje", ex.getMessage());
         return mv;
     }

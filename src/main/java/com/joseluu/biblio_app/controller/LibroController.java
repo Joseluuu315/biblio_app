@@ -9,10 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controlador para manejar la gestión de libros en la aplicación.
- * Permite listar, crear, editar y eliminar libros usando vistas HTML.
- * Utiliza LibroService para la lógica de negocio.
- * Se mapea con "/libros" y maneja formularios y redirecciones.
+ * Controlador MVC para gestionar libros de la biblioteca.
+ *
+ * <p>
+ * Permite listar, crear, editar y eliminar libros utilizando vistas HTML.
+ * Se integra con {@link LibroService} para la lógica de negocio.
+ * </p>
+ *
+ * <h3>Versionado del proyecto</h3>
+ * <ul>
+ *   <li><b>V1</b> – Servicio básico y repositorio de libros.</li>
+ *   <li><b>V4</b> – CRUD completo de libros en MVC.</li>
+ *   <li><b>V6</b> – Posible mejora futura: validación de campos y manejo de errores en vistas.</li>
+ * </ul>
  */
 @Controller
 @RequestMapping("/libros")
@@ -30,7 +39,7 @@ public class LibroController {
     }
 
     /**
-     * Muestra la lista de libros.
+     * Muestra la lista de todos los libros.
      *
      * @param model objeto Model para pasar datos a la vista
      * @return vista "libros" con la lista de libros
@@ -57,6 +66,10 @@ public class LibroController {
     /**
      * Guarda un libro nuevo o actualizado.
      *
+     * <p>
+     * V4 – Operación de alta/modificación de libro en MVC.
+     * </p>
+     *
      * @param libro objeto Libro enviado desde el formulario
      * @return redirección a "/libros"
      */
@@ -71,7 +84,7 @@ public class LibroController {
      *
      * @param id    id del libro a editar
      * @param model objeto Model para pasar datos a la vista
-     * @return vista "editarLibro" con el libro correspondiente
+     * @return vista "editarLibro" con los datos del libro correspondiente
      */
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
@@ -82,6 +95,10 @@ public class LibroController {
 
     /**
      * Elimina un libro existente.
+     *
+     * <p>
+     * V4 – Operación de baja de libro en MVC.
+     * </p>
      *
      * @param id id del libro a eliminar
      * @return redirección a "/libros"

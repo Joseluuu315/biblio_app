@@ -10,7 +10,18 @@ import java.util.List;
 
 /**
  * Controlador REST para gestionar los recursos de la biblioteca.
- * Proporciona endpoints para Libros, Socios y Prestamos.
+ *
+ * <p>
+ * Proporciona endpoints para Libros, Socios y Préstamos.
+ * Permite operaciones CRUD básicas mediante API REST.
+ * </p>
+ *
+ * <h3>Versionado del proyecto</h3>
+ * <ul>
+ *   <li><b>V1</b> – Gestión mínima de entidades y préstamos (alta/listado/baja).</li>
+ *   <li><b>V3</b> – Aún no implementa reglas de negocio avanzadas de préstamos.</li>
+ *   <li><b>V5</b> – Exposición de endpoints REST para Libros, Socios y Préstamos.</li>
+ * </ul>
  */
 @RestController
 @RequestMapping("/api")
@@ -21,8 +32,7 @@ public class BibliotecaController {
     /**
      * Constructor del controlador que inyecta el servicio de la biblioteca.
      *
-     * @param service servicio que maneja la lógica de negocio de libros, socios y
-     *                préstamos
+     * @param service servicio que maneja la lógica de negocio de libros, socios y préstamos
      */
     public BibliotecaController(BibliotecaService service) {
         this.service = service;
@@ -33,6 +43,11 @@ public class BibliotecaController {
     /**
      * Obtiene la lista de todos los libros registrados en la biblioteca.
      *
+     * <p>
+     * V1 – Listado básico de libros.
+     * V5 – Endpoint REST para obtener libros.
+     * </p>
+     *
      * @return lista de libros
      */
     @GetMapping("/libros")
@@ -42,6 +57,11 @@ public class BibliotecaController {
 
     /**
      * Crea un nuevo libro y lo guarda en la biblioteca.
+     *
+     * <p>
+     * V1 – Alta básica de libro.
+     * V5 – Endpoint REST para crear libro.
+     * </p>
      *
      * @param libro objeto Libro a crear
      * @return el libro creado
@@ -56,6 +76,11 @@ public class BibliotecaController {
     /**
      * Obtiene la lista de todos los socios registrados en la biblioteca.
      *
+     * <p>
+     * V1 – Listado básico de socios.
+     * V5 – Endpoint REST para obtener socios.
+     * </p>
+     *
      * @return lista de socios
      */
     @GetMapping("/socios")
@@ -65,6 +90,11 @@ public class BibliotecaController {
 
     /**
      * Crea un nuevo socio y lo guarda en la biblioteca.
+     *
+     * <p>
+     * V1 – Alta básica de socio.
+     * V5 – Endpoint REST para crear socio.
+     * </p>
      *
      * @param socio objeto Socio a crear
      * @return el socio creado
@@ -79,6 +109,11 @@ public class BibliotecaController {
     /**
      * Obtiene la lista de todos los préstamos registrados en la biblioteca.
      *
+     * <p>
+     * V1 – Listado básico de préstamos.
+     * V5 – Endpoint REST para obtener préstamos.
+     * </p>
+     *
      * @return lista de préstamos
      */
     @GetMapping("/prestamos")
@@ -88,6 +123,11 @@ public class BibliotecaController {
 
     /**
      * Crea un nuevo préstamo y lo guarda en la biblioteca.
+     *
+     * <p>
+     * V1 – Alta básica de préstamo (sin lógica de penalización ni límite de préstamos).
+     * V5 – Endpoint REST para crear préstamo.
+     * </p>
      *
      * @param prestamo objeto Prestamo a crear
      * @return el préstamo creado
