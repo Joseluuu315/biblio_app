@@ -29,6 +29,7 @@ public class Socio {
     @Column(name = "fechaFinPenalizacion")
     private LocalDate fechaFinPenalizacion;
 
+    //Relacion onetoMany en socio con borrado en cascada
     @JsonIgnore
     @OneToMany(mappedBy = "socio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prestamo> prestamos;
