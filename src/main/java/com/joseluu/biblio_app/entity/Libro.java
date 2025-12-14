@@ -30,6 +30,7 @@ public class Libro {
 
     private String categoria;
 
+    //Relacion oneToMany en libro con cascada
     @JsonIgnore
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prestamo> prestamos;
