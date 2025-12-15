@@ -1,66 +1,61 @@
 package com.joseluu.biblio_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 /**
  * Entidad que representa un libro en la biblioteca.
- *
- * <p>
- * Mapea la tabla "libro" en la base de datos mediante JPA.
- * Contiene información como título, autor, ISBN, categoría y los préstamos asociados.
- * </p>
- *
- * <h3>Versionado del proyecto</h3>
- * <ul>
- *   <li><b>V1</b> – Entidad mínima para CRUD de libros.</li>
- *   <li><b>V3</b> – Preparada para gestión de préstamos asociados.</li>
- *   <li><b>V4</b> – Base para CRUD completo de libros (MVC y REST).</li>
- *   <li><b>V5</b> – Expuesta en API REST, lista para JSON.</li>
- *   <li><b>V6</b> – Posible integración de Bean Validation (ej. @NotBlank, @Size, @Pattern).</li>
- * </ul>
- *
- * <p>
- * Relación con {@link Prestamo}: un libro puede tener muchos préstamos.
- * Se ignora en JSON para evitar ciclos de serialización.
- * </p>
  */
 @Entity
 @Table(name = "libro")
+@Schema(
+        name = "Libro",
+        description = "Representa un libro disponible en la biblioteca"
+)
 public class Libro {
 
-    /** Identificador único del libro. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(
+            example = "5",
+            description = "Identificador único del libro",
+            accessMode = Schema.AccessMode.READ_ONLY
+    )
     private Long id;
 
-    /** Título del libro. No puede ser nulo. */
     @Column(nullable = false)
+    @Schema(
+            example = "El Señor de los Anillos",
+            description = "Título del libro"
+    )
     private String titulo;
 
-    /** Autor del libro. No puede ser nulo. */
     @Column(nullable = false)
+    @Schema(
+            example = "J. R. R. Tolkien",
+            description = "Autor del libro"
+    )
     private String autor;
 
-    /** ISBN del libro. Único y obligatorio. */
     @Column(nullable = false, unique = true, length = 13)
+    @Schema(
+            example = "9780544003415",
+            description = "ISBN del libro (13 caracteres)"
+    )
     private String isbn;
 
-    /** Categoría del libro. Puede ser nula. */
+    @Schema(
+            example = "Fantasía",
+            description = "Categoría del libro"
+    )
     private String categoria;
 
-    /**
-     * Lista de préstamos asociados al libro.
-     *
-     * <p>
-     * Relación OneToMany con {@link Prestamo}, borrado en cascada y eliminando órfanos.
-     * Ignorada en JSON para evitar ciclos.
-     * </p>
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(hidden = true)
     private List<Prestamo> prestamos;
 
     // =======================
