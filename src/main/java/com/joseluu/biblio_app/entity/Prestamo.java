@@ -1,73 +1,73 @@
 package com.joseluu.biblio_app.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 /**
  * Entidad que representa un préstamo de libro realizado por un socio.
- *
- * <p>
- * Mapea la relación entre {@link Socio} y {@link Libro} e incluye información
- * sobre fechas y estado del préstamo.
- * </p>
- *
- * <h3>Versionado del proyecto</h3>
- * <ul>
- *   <li><b>V1</b> – Entidad mínima para CRUD de préstamos.</li>
- *   <li><b>V3</b> – Base para la lógica de negocio de préstamos:
- *       fechas límite, máximos activos y penalizaciones.</li>
- *   <li><b>V5</b> – Uso en API REST para exponer préstamos.</li>
- *   <li><b>V6</b> – Preparada para Bean Validation y manejo de errores.</li>
- * </ul>
- *
- * <p>
- * Contiene un {@link Estado} que indica si el préstamo está ACTIVO, DEVUELTO
- * o RETRASADO.
- * </p>
  */
 @Entity
+@Schema(
+        name = "Prestamo",
+        description = "Representa el préstamo de un libro realizado por un socio"
+)
 public class Prestamo {
 
-    /** Identificador único del préstamo. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(
+            example = "10",
+            description = "Identificador único del préstamo",
+            accessMode = Schema.AccessMode.READ_ONLY
+    )
     private Long id;
 
-    /** Socio que realiza el préstamo. Relación ManyToOne obligatoria. */
     @ManyToOne
     @JoinColumn(name = "socio_id", nullable = false)
+    @Schema(
+            description = "Socio que realiza el préstamo"
+    )
     private Socio socio;
 
-    /** Libro que se presta. Relación ManyToOne obligatoria. */
     @ManyToOne
     @JoinColumn(name = "libro_id", nullable = false)
+    @Schema(
+            description = "Libro que se presta"
+    )
     private Libro libro;
 
-    /** Fecha en la que se realiza el préstamo. Se inicializa automáticamente si es nula. */
     @Column(name = "fecha_prestamo")
+    @Schema(
+            example = "2025-01-10",
+            description = "Fecha en la que se realiza el préstamo"
+    )
     private LocalDate fechaPrestamo;
 
-    /** Fecha límite para la devolución del libro. */
     @Column(name = "fecha_fin")
+    @Schema(
+            example = "2025-01-25",
+            description = "Fecha límite para la devolución del libro"
+    )
     private LocalDate fechaFin;
 
-    /** Estado actual del préstamo: ACTIVO, DEVUELTO o RETRASADO. */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Schema(
+            description = "Estado actual del préstamo",
+            example = "ACTIVO",
+            allowableValues = {"ACTIVO", "DEVUELTO", "RETRASADO"}
+    )
     private Estado estado;
 
-    /** Fecha de inicio del préstamo, obligatoria. */
     @Column(name = "fecha_inicio", nullable = false)
+    @Schema(
+            example = "2025-01-10",
+            description = "Fecha de inicio del préstamo"
+    )
     private LocalDate fechaInicio;
 
-    /**
-     * Inicializa fechas antes de persistir si no se han asignado.
-     *
-     * <p>
-     * V3 – Permite establecer fechas por defecto para la lógica de préstamos.
-     * </p>
-     */
     @PrePersist
     public void prePersist() {
         if (fechaPrestamo == null) {
@@ -78,9 +78,16 @@ public class Prestamo {
         }
     }
 
-    /** Estados posibles de un préstamo. */
+    /**
+     * Estados posibles de un préstamo.
+     */
+    @Schema(
+            description = "Estados posibles de un préstamo"
+    )
     public enum Estado {
-        ACTIVO, DEVUELTO, RETRASADO
+        ACTIVO,
+        DEVUELTO,
+        RETRASADO
     }
 
     // =======================
