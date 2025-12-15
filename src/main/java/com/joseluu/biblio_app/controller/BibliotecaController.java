@@ -4,68 +4,56 @@ import com.joseluu.biblio_app.entity.Libro;
 import com.joseluu.biblio_app.entity.Prestamo;
 import com.joseluu.biblio_app.entity.Socio;
 import com.joseluu.biblio_app.service.BibliotecaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Controlador REST para gestionar los recursos de la biblioteca.
- *
- * <p>
- * Proporciona endpoints para Libros, Socios y Préstamos.
- * Permite operaciones CRUD básicas mediante API REST.
- * </p>
- *
- * <h3>Versionado del proyecto</h3>
- * <ul>
- *   <li><b>V1</b> – Gestión mínima de entidades y préstamos (alta/listado/baja).</li>
- *   <li><b>V3</b> – Aún no implementa reglas de negocio avanzadas de préstamos.</li>
- *   <li><b>V5</b> – Exposición de endpoints REST para Libros, Socios y Préstamos.</li>
- * </ul>
  */
 @RestController
 @RequestMapping("/api")
+@Tag(
+        name = "Biblioteca",
+        description = "Gestión de libros, socios y préstamos"
+)
 public class BibliotecaController {
 
     private final BibliotecaService service;
 
-    /**
-     * Constructor del controlador que inyecta el servicio de la biblioteca.
-     *
-     * @param service servicio que maneja la lógica de negocio de libros, socios y préstamos
-     */
     public BibliotecaController(BibliotecaService service) {
         this.service = service;
     }
 
     // ====================== LIBROS ======================
 
-    /**
-     * Obtiene la lista de todos los libros registrados en la biblioteca.
-     *
-     * <p>
-     * V1 – Listado básico de libros.
-     * V5 – Endpoint REST para obtener libros.
-     * </p>
-     *
-     * @return lista de libros
-     */
+    @Operation(
+            summary = "Listar libros",
+            description = "Obtiene la lista completa de libros registrados en la biblioteca"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Listado de libros obtenido correctamente"
+    )
     @GetMapping("/libros")
     public List<Libro> getAllLibros() {
         return service.getAllLibros();
     }
 
-    /**
-     * Crea un nuevo libro y lo guarda en la biblioteca.
-     *
-     * <p>
-     * V1 – Alta básica de libro.
-     * V5 – Endpoint REST para crear libro.
-     * </p>
-     *
-     * @param libro objeto Libro a crear
-     * @return el libro creado
-     */
+    @Operation(
+            summary = "Crear libro",
+            description = "Crea un nuevo libro en la biblioteca"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Libro creado correctamente"
+    )
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/libros")
     public Libro crearLibro(@RequestBody Libro libro) {
         return service.saveLibro(libro);
@@ -73,32 +61,28 @@ public class BibliotecaController {
 
     // ====================== SOCIOS ======================
 
-    /**
-     * Obtiene la lista de todos los socios registrados en la biblioteca.
-     *
-     * <p>
-     * V1 – Listado básico de socios.
-     * V5 – Endpoint REST para obtener socios.
-     * </p>
-     *
-     * @return lista de socios
-     */
+    @Operation(
+            summary = "Listar socios",
+            description = "Obtiene la lista completa de socios registrados"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Listado de socios obtenido correctamente"
+    )
     @GetMapping("/socios")
     public List<Socio> getAllSocios() {
         return service.getAllSocios();
     }
 
-    /**
-     * Crea un nuevo socio y lo guarda en la biblioteca.
-     *
-     * <p>
-     * V1 – Alta básica de socio.
-     * V5 – Endpoint REST para crear socio.
-     * </p>
-     *
-     * @param socio objeto Socio a crear
-     * @return el socio creado
-     */
+    @Operation(
+            summary = "Crear socio",
+            description = "Crea un nuevo socio en el sistema"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Socio creado correctamente"
+    )
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/socios")
     public Socio crearSocio(@RequestBody Socio socio) {
         return service.saveSocio(socio);
@@ -106,32 +90,28 @@ public class BibliotecaController {
 
     // ====================== PRÉSTAMOS ======================
 
-    /**
-     * Obtiene la lista de todos los préstamos registrados en la biblioteca.
-     *
-     * <p>
-     * V1 – Listado básico de préstamos.
-     * V5 – Endpoint REST para obtener préstamos.
-     * </p>
-     *
-     * @return lista de préstamos
-     */
+    @Operation(
+            summary = "Listar préstamos",
+            description = "Obtiene la lista de todos los préstamos registrados"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Listado de préstamos obtenido correctamente"
+    )
     @GetMapping("/prestamos")
     public List<Prestamo> getAllPrestamos() {
         return service.getAllPrestamos();
     }
 
-    /**
-     * Crea un nuevo préstamo y lo guarda en la biblioteca.
-     *
-     * <p>
-     * V1 – Alta básica de préstamo (sin lógica de penalización ni límite de préstamos).
-     * V5 – Endpoint REST para crear préstamo.
-     * </p>
-     *
-     * @param prestamo objeto Prestamo a crear
-     * @return el préstamo creado
-     */
+    @Operation(
+            summary = "Crear préstamo",
+            description = "Registra un nuevo préstamo en la biblioteca"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Préstamo creado correctamente"
+    )
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/prestamos")
     public Prestamo crearPrestamo(@RequestBody Prestamo prestamo) {
         return service.savePrestamo(prestamo);
